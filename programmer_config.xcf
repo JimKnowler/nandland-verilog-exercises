@@ -17,11 +17,12 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/jim/Documents/GitHub/personal/nandland/projects/Project04/Project04_Implmnt/sbt/outputs/bitmap/Clocked_Logic_bitmap.bin</File>
-			<FileTime>10/31/20 11:25:25</FileTime>
+			<File>C:/Users/jim/Documents/GitHub/personal/nandland/nandland-verilog-exercises/Project07/Project07_Implmnt/sbt/outputs/bitmap/uart_recv_top_bitmap.bin</File>
+			<FileTime>10/31/20 16:46:54</FileTime>
 			<Operation>SPI Flash Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<SVFProcessor>SVF Processor</SVFProcessor>
 				<AccessMode>SPI Flash Programming</AccessMode>
 			</Option>
 			<FPGALoader>
@@ -45,6 +46,7 @@
 						<SVFVendor>JTAG STANDARD</SVFVendor>
 						<IOState>HighZ</IOState>
 						<IOVectorData></IOVectorData>
+						<SVFProcessor>SVF Processor</SVFProcessor>
 						<AccessMode>JTAG</AccessMode>
 					</Option>
 				</Device>
@@ -58,7 +60,7 @@
 					<IDCode>0x10</IDCode>
 					<Package>8-pin SOIC</Package>
 					<Operation>SPI Flash Erase,Program,Verify</Operation>
-					<File>C:/Users/jim/Documents/GitHub/personal/nandland/projects/Project04/Project04_Implmnt/sbt/outputs/bitmap/Clocked_Logic_bitmap.bin</File>
+					<File>C:/Users/jim/Documents/GitHub/personal/nandland/nandland-verilog-exercises/Project07/Project07_Implmnt/sbt/outputs/bitmap/uart_recv_top_bitmap.bin</File>
 					<AddressBase>0x00000000</AddressBase>
 					<EndAddress>0x00008000</EndAddress>
 					<DeviceSize>1</DeviceSize>
@@ -79,6 +81,7 @@
 					</LocalChainList>
 					<Option>
 						<SVFVendor>JTAG STANDARD</SVFVendor>
+						<SVFProcessor>SVF Processor</SVFProcessor>
 					</Option>
 				</Device>
 			</FPGADevice>
@@ -91,12 +94,13 @@
 		<OperationOverride>No Override</OperationOverride>
 		<StartTAP>TLR</StartTAP>
 		<EndTAP>TLR</EndTAP>
+		<DisableCheckBoard value="TRUE"/>
 		<VerifyUsercode value="FALSE"/>
 		<TCKDelay>1</TCKDelay>
 	</ProjectOptions>
 	<CableOptions>
 		<CableName>USB2</CableName>
 		<PortAdd>FTUSB-0</PortAdd>
-		<USBID>Dual RS232-HS A Location 0000 Serial A</USBID>
+		<USBID>Dual RS232-HS B Location 0001 Serial B</USBID>
 	</CableOptions>
 </ispXCF>
