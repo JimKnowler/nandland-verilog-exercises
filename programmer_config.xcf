@@ -17,8 +17,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/jim/Documents/GitHub/personal/nandland/nandland-verilog-exercises/Project07/Project07_Implmnt/sbt/outputs/bitmap/uart_recv_top_bitmap.bin</File>
-			<FileTime>10/31/20 16:46:54</FileTime>
+			<File>C:/Users/jim/Documents/GitHub/personal/nandland/nandland-verilog-exercises/Project08/Project08_Implmnt/sbt/outputs/bitmap/uart_loopback_top_bitmap.bin</File>
+			<FileTime>11/01/20 17:12:55</FileTime>
 			<Operation>SPI Flash Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -60,11 +60,11 @@
 					<IDCode>0x10</IDCode>
 					<Package>8-pin SOIC</Package>
 					<Operation>SPI Flash Erase,Program,Verify</Operation>
-					<File>C:/Users/jim/Documents/GitHub/personal/nandland/nandland-verilog-exercises/Project07/Project07_Implmnt/sbt/outputs/bitmap/uart_recv_top_bitmap.bin</File>
+					<File>C:/Users/jim/Documents/GitHub/personal/nandland/nandland-verilog-exercises/Project08/Project08_Implmnt/sbt/outputs/bitmap/uart_loopback_top_bitmap.bin</File>
 					<AddressBase>0x00000000</AddressBase>
 					<EndAddress>0x00008000</EndAddress>
 					<DeviceSize>1</DeviceSize>
-					<DataSize>32300</DataSize>
+					<DataSize>32299</DataSize>
 					<NumberOfDevices>1</NumberOfDevices>
 					<ReInitialize value="FALSE"/>
 				</Device>
@@ -101,6 +101,6 @@
 	<CableOptions>
 		<CableName>USB2</CableName>
 		<PortAdd>FTUSB-0</PortAdd>
-		<USBID>Dual RS232-HS B Location 0001 Serial B</USBID>
+		<USBID>Dual RS232-HS A Location 0000 Serial A</USBID>
 	</CableOptions>
 </ispXCF>
