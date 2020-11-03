@@ -57,6 +57,9 @@ Note: characters will not appear in the TeraTerm terminal.
 
 Note: have seen issues where Diamond programmer will fail while TeraTerm is connected.
 
+UART recv simulation on EDAPlayground: 
+https://edaplayground.com/x/NY8h
+
 ## 8. UART loopback
 
 Receive characters over a serial connection and then send them back.
@@ -64,3 +67,8 @@ Receive characters over a serial connection and then send them back.
 When typing charaters into the TeraTerm terminal, they will now also appear in the Terminal.
 
 
+UART send simulation on EDAPlayground:
+https://edaplayground.com/x/9pNH
+
+UART recv->send simulation on EDAPlayground:
+https://edaplayground.com/x/9pNH
