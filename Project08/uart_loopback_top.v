@@ -1,7 +1,7 @@
 module uart_loopback_top(
     input i_Clk,
     input i_UART_RX,
-    input o_UART_TX,
+    output o_UART_TX,
 
     // segment1 - upper digit
     output o_Segment1_A,
@@ -28,14 +28,15 @@ module uart_loopback_top(
     output o_LED_4,
 
     // PMOD
-    output o_PMOD_1
+    output io_PMOD_1
 );
 
 wire w_RX_DV;
 wire [7:0] w_RX_Byte;
 
-// todo: could use posedge of w_RX_DV to
-//       drive copying w_RX_Byte to a local register
+wire w_TX_Active;
+wire w_TX_Serial;
+wire w_TX_Done;
 
 wire w_Segment1_A;
 wire w_Segment1_B;
@@ -68,7 +69,7 @@ uart_send uart_send_inst(
     .i_tx_byte(w_RX_Byte),          // pass RX to TX for loopback
     .o_tx_active(w_TX_Active),
     .o_tx_serial(w_TX_Serial),
-    .o_tx_done()
+    .o_tx_done(w_TX_Done)
 );
 
 // drive UART line high when transmitter is not active
@@ -118,13 +119,13 @@ assign o_Segment2_G = ~w_Segment2_G;
 
 
 // DEBUG - write RX_Byte directly to LED
-//         to monitor incoming traffic
-assign o_LED_1 = w_RX_Byte[0];
-assign o_LED_2 = w_RX_Byte[1];
-assign o_LED_3 = w_RX_Byte[2];
-assign o_LED_4 = w_RX_Byte[3];
+//         to monitor outgoing traffic
+assign o_LED_1 = w_TX_Active;
+assign o_LED_2 = w_TX_Done;
+assign o_LED_3 = w_TX_Serial;
 
 // DEBUG - attach scope to this and debug!
-assign o_PMOD_1 = i_UART_RX;
+assign io_PMOD_1 = i_UART_RX;
+
 
 endmodule

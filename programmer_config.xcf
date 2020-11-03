@@ -18,7 +18,7 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>C:/Users/jim/Documents/GitHub/personal/nandland/nandland-verilog-exercises/Project08/Project08_Implmnt/sbt/outputs/bitmap/uart_loopback_top_bitmap.bin</File>
-			<FileTime>11/01/20 17:12:55</FileTime>
+			<FileTime>11/01/20 17:25:23</FileTime>
 			<Operation>SPI Flash Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>

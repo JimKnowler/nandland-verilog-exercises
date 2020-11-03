@@ -4,7 +4,7 @@ Version=Lattice Semiconductor Corporation iCEcube - Release: 2017.08.27940 - Bui
 ProjectName=Project08
 Vendor=SiliconBlue
 Synthesis=synplify
-ProjectVFiles=Binary_To_7Segment.v,uart_loopback_top.v,uart_recv.v,uart_send.v
+ProjectVFiles=Binary_To_7Segment.v=work,uart_loopback_top.v=work,uart_recv.v=work,uart_send.v=work
 ProjectCFiles=../Go_Board_Clock_Constraint.sdc
 CurImplementation=Project08_Implmnt
 Implementations=Project08_Implmnt
