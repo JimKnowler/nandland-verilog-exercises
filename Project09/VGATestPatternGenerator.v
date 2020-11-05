@@ -1,7 +1,7 @@
 module VGATestPatternGenerator(
   input [2:0] i_pattern,
-  input [9:0] i_x,
-  input [9:0] i_y,
+  input [10:0] i_x,
+  input [10:0] i_y,
   output [2:0] o_red,
   output [2:0] o_green,
   output [2:0] o_blue
@@ -45,7 +45,7 @@ module VGATestPatternGenerator(
   // pattern 4 => CHECKERBOARD
   
   wire [2:0] pattern_checkerboard;
-  assign pattern_checkerboard[2:0] = ((i_x >> 4) != 0) && ((i_y >> 4) != 0) ? 3'b111 : 0;
+  assign pattern_checkerboard[2:0] = (i_x[4] ^ i_y[4]) ? 3'b111 : 0;
   assign pattern_red[4][2:0] = pattern_checkerboard;
   assign pattern_green[4][2:0] = pattern_checkerboard;
   assign pattern_blue[4][2:0] = pattern_checkerboard;
@@ -53,16 +53,16 @@ module VGATestPatternGenerator(
   ////////////////////////////////////////////////////////////////////
   // pattern 5 => COLUMNS
   
-  assign pattern_red[5][2:0] = ((i_x >> 4) != 0) ? 3'b111 : 0;
-  assign pattern_green[5][2:0] = ((i_x >> 5) != 0) ? 3'b111 : 0;
-  assign pattern_blue[5][2:0] = ((i_x >> 6) != 0) ? 3'b111 : 0;
+  assign pattern_red[5][2:0] = (i_x[4]) ? 3'b111 : 0;
+  assign pattern_green[5][2:0] = (i_x[5]) ? 3'b111 : 0;
+  assign pattern_blue[5][2:0] = (i_x[6]) ? 3'b111 : 0;
   
   ////////////////////////////////////////////////////////////////////
   // pattern 6 => ROWS
   
-  assign pattern_red[6][2:0] = ((i_y >> 4) != 0) ? 3'b111 : 0;
-  assign pattern_green[6][2:0] = ((i_y >> 5) != 0) ? 3'b111 : 0;
-  assign pattern_blue[6][2:0] = ((i_y >> 6) != 0) ? 3'b111 : 0;
+  assign pattern_red[6][2:0] = (i_y[4]) ? 3'b111 : 0;
+  assign pattern_green[6][2:0] = (i_y[5]) ? 3'b111 : 0;
+  assign pattern_blue[6][2:0] = (i_y[6]) ? 3'b111 : 0;
   
   ////////////////////////////////////////////////////////////////////
   // pattern 7 => WHITE

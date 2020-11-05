@@ -9,13 +9,13 @@ module VGASyncPulseGenerator
     input i_clk,
     output o_hsync,
     output o_vsync,
-    output [9:0] o_x,
-    output [9:0] o_y,
+    output [10:0] o_x,
+    output [10:0] o_y,
     output o_active
   );
   
-  reg [9:0] r_counter_x;
-  reg [9:0] r_counter_y;
+  reg [10:0] r_counter_x;
+  reg [10:0] r_counter_y;
   
   always @(posedge i_clk)
     begin
@@ -38,8 +38,8 @@ module VGASyncPulseGenerator
         end
     end
   
-  assign o_hsync = (r_counter_x >= WIDTH_ACTIVE);
-  assign o_vsync = (r_counter_y >= HEIGHT_ACTIVE);
+  assign o_hsync = (r_counter_x < WIDTH_ACTIVE);
+  assign o_vsync = (r_counter_y < HEIGHT_ACTIVE);
   assign o_x = r_counter_x;
   assign o_y = r_counter_y;
   assign o_active = (r_counter_x < WIDTH_ACTIVE) && (r_counter_y < HEIGHT_ACTIVE);

@@ -97,8 +97,8 @@ module vga_output_top(
 
     wire w_hsync;
     wire w_vsync;
-    wire [9:0] w_x;
-    wire [9:0] w_y;
+    wire [10:0] w_x;
+    wire [10:0] w_y;
     wire w_active;
     wire [2:0] w_red;
     wire [2:0] w_green;
