@@ -66,9 +66,20 @@ Receive characters over a serial connection and then send them back.
 
 When typing charaters into the TeraTerm terminal, they will now also appear in the Terminal.
 
-
 UART send simulation on EDAPlayground:
 https://edaplayground.com/x/9pNH
 
 UART recv->send simulation on EDAPlayground:
 https://edaplayground.com/x/9pNH
+
+## 9. VGA output
+
+Use the first switch to cycle through a set of 9 VGA test patterns.
+
+Connect a VGA monitor to the VGA output to see the test patterns.
+
+The current test pattern selection is displayed on the 7 Segment display.
+
+Developed + Simulated on EDAPlayground:
+https://edaplayground.com/x/ahJE
+
