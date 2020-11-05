@@ -49,7 +49,12 @@ https://edaplayground.com/x/ATH
 
 Receive characters over a serial connection
 
-Works well with the TeraTerm application on Windows - remember to choose the right COM port for your GO Board and use 112500 baud rate.
+Works well with the TeraTerm application on Windows - remember to choose the right COM port for your GO Board and use settings:
+- speed: 115200
+- data: 8 bit
+- parity: none
+- stop bits: 1 bit
+- flow control: none
 
 When typing characters into the TeraTerm terminal, the 7-segment displays will show hex value of the character and the LEDS will show the character's low nibble. 
 
@@ -83,3 +88,16 @@ The current test pattern selection is displayed on the 7 Segment display.
 Developed + Simulated on EDAPlayground:
 https://edaplayground.com/x/ahJE
 
+## 10. PONG!
+
+Simple implementation of the Pong game in verilog.
+
+Connect a VGA monitor to the VGA output to see the display.
+
+Player one uses switches on the left to move their paddle up and down.  Player two uses switches on the right.
+
+Scores are displayed on the 7 segment display.
+
+The first player to 9 wins.
+
+Connect via UART terminal (see project 7) to restart game with any key.
