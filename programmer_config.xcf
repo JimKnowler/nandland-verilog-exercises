@@ -17,8 +17,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/jim/Documents/GitHub/personal/nandland/nandland-verilog-exercises/Project08/Project08_Implmnt/sbt/outputs/bitmap/uart_loopback_top_bitmap.bin</File>
-			<FileTime>11/01/20 17:25:23</FileTime>
+			<File>C:/Users/jim/Documents/GitHub/personal/nandland/nandland-verilog-exercises/Project10/Project10_Implmnt/sbt/outputs/bitmap/pong_top_bitmap.bin</File>
+			<FileTime>11/05/20 17:26:27</FileTime>
 			<Operation>SPI Flash Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -60,7 +60,7 @@
 					<IDCode>0x10</IDCode>
 					<Package>8-pin SOIC</Package>
 					<Operation>SPI Flash Erase,Program,Verify</Operation>
-					<File>C:/Users/jim/Documents/GitHub/personal/nandland/nandland-verilog-exercises/Project08/Project08_Implmnt/sbt/outputs/bitmap/uart_loopback_top_bitmap.bin</File>
+					<File>C:/Users/jim/Documents/GitHub/personal/nandland/nandland-verilog-exercises/Project10/Project10_Implmnt/sbt/outputs/bitmap/pong_top_bitmap.bin</File>
 					<AddressBase>0x00000000</AddressBase>
 					<EndAddress>0x00008000</EndAddress>
 					<DeviceSize>1</DeviceSize>

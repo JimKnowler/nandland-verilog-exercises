@@ -42,6 +42,29 @@ module pong_top(
     output o_VGA_Blu_1,
     output o_VGA_Blu_2
 );
+    //////////////////////////////////////////////////////////////////
+    // Display Constants
+
+    localparam PADDLE_WIDTH = 20;
+    localparam PADDLE_HEIGHT = 100;
+    
+    localparam SCREEN_WIDTH_ACTIVE = 640;
+    localparam SCREEN_HEIGHT_ACTIVE = 480;
+
+    //////////////////////////////////////////////////////////////////
+    // Reset (active when low)
+    /*
+    reg r_reset_n = 0;
+
+    always @(posedge i_Clk)
+    begin
+        if (!r_reset_n)
+        begin
+            // clear reset flag
+            r_reset_n <= 1;
+        end
+    end
+    */
 
     //////////////////////////////////////////////////////////////////
     // Paddle positions + Scores
@@ -242,44 +265,70 @@ module pong_top(
     begin
         clock_divider <= clock_divider + 1;
 
-        if (&clock_divider == 1)
+        /*
+        if (!r_reset_n) 
         begin
-            // todo: limit paddle positions
-            if (w_Switch_1)
-                r_paddle_y_1 <= r_paddle_y_1 - 1;
-            else if (w_Switch_2)
-                r_paddle_y_1 <= r_paddle_y_1 + 1;
-
-            if (w_Switch_3)
-                r_paddle_y_2 <= r_paddle_y_2 - 1;
-            else if (w_Switch_4)
-                r_paddle_y_2 <= r_paddle_y_2 + 1;
-
+            r_paddle_y_1 <= (SCREEN_HEIGHT_ACTIVE - PADDLE_HEIGHT) / 2;
+            r_paddle_y_2 <= (SCREEN_HEIGHT_ACTIVE - PADDLE_HEIGHT) / 2;
         end
+        else
+        */
+        //begin
+            if (&clock_divider == 1)
+            begin
+                if (w_Switch_1)
+                begin
+                    if (r_paddle_y_1 > 0)
+                        r_paddle_y_1 <= r_paddle_y_1 - 1;
+                end
+                else if (w_Switch_2)
+                begin
+                    if (r_paddle_y_1 < (SCREEN_HEIGHT_ACTIVE - PADDLE_HEIGHT))
+                        r_paddle_y_1 <= r_paddle_y_1 + 1;
+                end
+
+                if (w_Switch_3)
+                begin
+                    if (r_paddle_y_2 > 0)
+                        r_paddle_y_2 <= r_paddle_y_2 - 1;
+                end
+                else if (w_Switch_4)
+                begin
+                    if (r_paddle_y_2 < (SCREEN_HEIGHT_ACTIVE - PADDLE_HEIGHT))
+                        r_paddle_y_2 <= r_paddle_y_2 + 1;
+                end
+            end
+        //end
     end
 
     wire output_active;
-    reg output_active_paddle1;
-    reg output_active_paddle2;
+    wire output_active_paddle1;
+    wire output_active_paddle2;
 
-    localparam PADDLE_WIDTH = 20;
-    localparam PADDLE_HEIGHT = 100;
-    localparam PADDLE_HALFHEIGHT = PADDLE_HEIGHT / 2;
+    Rectangle rectangle_paddle1(
+        .i_left(0),
+        .i_right(PADDLE_WIDTH),
+        .i_top(r_paddle_y_1),
+        .i_bottom(r_paddle_y_1 + PADDLE_HEIGHT),
+        .i_test_x(w_x),
+        .i_test_y(w_y),
+        .o_is_xy_inside(output_active_paddle1)
+    );
 
-    localparam WIDTH_ACTIVE = 640;
-
-    always @*
-    begin
-        output_active_paddle1 = (w_x < PADDLE_WIDTH) & (w_y > (r_paddle_y_1-PADDLE_HALFHEIGHT)) & (w_y < (r_paddle_y_1+PADDLE_HALFHEIGHT));
-
-        output_active_paddle2 = (w_x > (WIDTH_ACTIVE-PADDLE_WIDTH)) & (w_y > (r_paddle_y_2-PADDLE_HALFHEIGHT)) & (w_y < (r_paddle_y_2+PADDLE_HALFHEIGHT));
-        //output_active_paddle2 = 0;
-    end
+    Rectangle rectangle_paddle2(
+        .i_left(SCREEN_WIDTH_ACTIVE-PADDLE_WIDTH),
+        .i_right(SCREEN_WIDTH_ACTIVE),
+        .i_top(r_paddle_y_2),
+        .i_bottom(r_paddle_y_2 + PADDLE_HEIGHT),
+        .i_test_x(w_x),
+        .i_test_y(w_y),
+        .o_is_xy_inside(output_active_paddle2)
+    );
 
     assign output_active = output_active_paddle1 | output_active_paddle2;
     
     assign w_red = output_active ? 3'b111 : 3'b000;
     assign w_green = output_active ? 3'b111 : 3'b000;
     assign w_blue = output_active ? 3'b111 : 3'b000;
-
+    
 endmodule

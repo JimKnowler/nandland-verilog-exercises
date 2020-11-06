@@ -9,6 +9,7 @@ add_file -verilog -lib work "VGASyncPulseGenerator.v"
 add_file -verilog -lib work "pong_top.v" 
 add_file -verilog -lib work "uart_recv.v" 
 add_file -verilog -lib work "uart_send.v" 
+add_file -verilog -lib work "rectangle.v" 
 add_file -constraint -lib work "../Go_Board_Clock_Constraint.sdc"
 #implementation: "Project10_Implmnt"
 impl -add Project10_Implmnt -type fpga
