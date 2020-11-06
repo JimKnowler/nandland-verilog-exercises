@@ -52,19 +52,9 @@ module pong_top(
     localparam SCREEN_HEIGHT_ACTIVE = 480;
 
     //////////////////////////////////////////////////////////////////
-    // Reset (active when low)
-    /*
-    reg r_reset_n = 0;
+    // Reset
 
-    always @(posedge i_Clk)
-    begin
-        if (!r_reset_n)
-        begin
-            // clear reset flag
-            r_reset_n <= 1;
-        end
-    end
-    */
+    wire w_reset;
 
     //////////////////////////////////////////////////////////////////
     // Paddle positions + Scores
@@ -202,6 +192,9 @@ module pong_top(
     // drive UART line high when transmitter is not active
     assign o_UART_TX = w_TX_Active ? w_TX_Serial : 1'b1;
 
+    // connect 'reset' to receiving a character over UART
+    assign w_reset = w_RX_DV;
+
     //////////////////////////////////////////////////////////////////
     // VGA output
 
@@ -265,15 +258,13 @@ module pong_top(
     begin
         clock_divider <= clock_divider + 1;
 
-        /*
-        if (!r_reset_n) 
+        if (w_reset) 
         begin
             r_paddle_y_1 <= (SCREEN_HEIGHT_ACTIVE - PADDLE_HEIGHT) / 2;
             r_paddle_y_2 <= (SCREEN_HEIGHT_ACTIVE - PADDLE_HEIGHT) / 2;
         end
         else
-        */
-        //begin
+        begin
             if (&clock_divider == 1)
             begin
                 if (w_Switch_1)
@@ -298,7 +289,7 @@ module pong_top(
                         r_paddle_y_2 <= r_paddle_y_2 + 1;
                 end
             end
-        //end
+        end
     end
 
     wire output_active;
