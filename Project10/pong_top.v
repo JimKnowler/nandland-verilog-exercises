@@ -51,19 +51,30 @@ module pong_top(
     localparam SCREEN_WIDTH_ACTIVE = 640;
     localparam SCREEN_HEIGHT_ACTIVE = 480;
 
+    localparam BALL_WIDTH = 20;
+    localparam BALL_HEIGHT = 20;
+
     //////////////////////////////////////////////////////////////////
     // Reset
 
     wire w_reset;
 
     //////////////////////////////////////////////////////////////////
-    // Paddle positions + Scores
+    // Paddle positions + Scores for each player
 
     reg [10:0] r_paddle_y_1;
     reg [3:0] r_score_1;
 
     reg [10:0] r_paddle_y_2;
     reg [3:0] r_score_2;
+
+    //////////////////////////////////////////////////////////////////
+    // BALL Position / speed
+
+    reg [10:0] r_ball_x;
+    reg [10:0] r_ball_y;
+    reg [10:0] r_ball_last_x;
+    reg [10:0] r_ball_last_y;
 
     //////////////////////////////////////////////////////////////////
     // debounce switches
@@ -96,11 +107,6 @@ module pong_top(
         .i_Switch(i_Switch_4),
         .o_Switch(w_Switch_4)
     );
-
-    assign o_LED_1 = w_Switch_1;
-    assign o_LED_2 = w_Switch_2;
-    assign o_LED_3 = w_Switch_3;
-    assign o_LED_4 = w_Switch_4;
 
     //////////////////////////////////////////////////////////////////
     // display scores on 7-seg
@@ -260,31 +266,128 @@ module pong_top(
 
         if (w_reset) 
         begin
+            // reset paddle positions to half way down the screen
             r_paddle_y_1 <= (SCREEN_HEIGHT_ACTIVE - PADDLE_HEIGHT) / 2;
             r_paddle_y_2 <= (SCREEN_HEIGHT_ACTIVE - PADDLE_HEIGHT) / 2;
+
+            // reset ball position to center of the screen
+            r_ball_x <= (SCREEN_WIDTH_ACTIVE - BALL_WIDTH) / 2;
+            r_ball_y <= (SCREEN_HEIGHT_ACTIVE - BALL_HEIGHT) / 2;
         end
         else
         begin
             if (&clock_divider == 1)
             begin
+
+                // cache last ball position
+                
+                r_ball_last_x <= r_ball_x;
+                r_ball_last_y <= r_ball_y;
+
+                // determine ball direction by comparing current and last ball position
+
+                if (r_ball_x > r_ball_last_x)
+                begin
+                    // moving right
+
+                    if (r_ball_x == SCREEN_WIDTH_ACTIVE)
+                    begin
+                        // reached edge of the screen - score! 
+                        r_score_1 <= r_score_1 + 1;
+
+                        // reset ball
+                        r_ball_x <= SCREEN_WIDTH_ACTIVE / 2;
+                        r_ball_y <= SCREEN_HEIGHT_ACTIVE / 2;
+                    end
+                    else if ((r_ball_x >= (SCREEN_WIDTH_ACTIVE - BALL_WIDTH)) && (r_ball_y > r_paddle_y_2) && ((r_ball_y - r_paddle_y_2) < PADDLE_HEIGHT))
+                    begin
+                        // hit paddle 2, switch direction
+                        r_ball_x <= r_ball_x - 1;
+                    end
+                    else
+                    begin
+                        // keep moving right
+                        r_ball_x <= r_ball_x + 1;
+                    end
+                end
+                else if (r_ball_x < r_ball_last_x)
+                begin
+                    // moving left
+
+                    if (r_ball_x == 0)
+                    begin
+                        // reached edge of the screen - score!
+                        r_score_2 <= r_score_2 + 1;
+                        
+                        // reset ball
+                        r_ball_x <= SCREEN_WIDTH_ACTIVE / 2;
+                        r_ball_y <= SCREEN_HEIGHT_ACTIVE / 2;
+                    end
+                    else if ((r_ball_x <= BALL_WIDTH) && (r_ball_y > r_paddle_y_1) && ((r_ball_y - r_paddle_y_1) < PADDLE_HEIGHT))
+                    begin
+                        // hit paddle 1, switch direction
+                        r_ball_x <= r_ball_x + 1;
+                    end
+                    else
+                    begin
+                        // keep moving left
+                        r_ball_x <= r_ball_x - 1;
+                    end
+                end
+                
+                if (r_ball_y > r_ball_last_y)
+                begin
+                    // moving down
+
+                    if (r_ball_y >= (SCREEN_HEIGHT_ACTIVE - BALL_HEIGHT))
+                    begin
+                        // reached edge of the screen, switch direction
+                        r_ball_y <= r_ball_y - 1;
+                    end
+                    else
+                    begin
+                        r_ball_y <= r_ball_y + 1;
+                    end
+                end
+                else if (r_ball_y < r_ball_last_y)
+                begin
+                    // moving left
+
+                    if (r_ball_y == 0)
+                    begin
+                        // reached edge of the screen, switch direction
+                        r_ball_y <= r_ball_y + 1;
+                    end
+                    else
+                    begin
+                        r_ball_y <= r_ball_y - 1;
+                    end
+                end
+                
+                // update paddle positions
+
                 if (w_Switch_1)
                 begin
+                    // LEFT up
                     if (r_paddle_y_1 > 0)
                         r_paddle_y_1 <= r_paddle_y_1 - 1;
                 end
                 else if (w_Switch_2)
                 begin
+                    // LEFT down
                     if (r_paddle_y_1 < (SCREEN_HEIGHT_ACTIVE - PADDLE_HEIGHT))
                         r_paddle_y_1 <= r_paddle_y_1 + 1;
                 end
 
                 if (w_Switch_3)
                 begin
+                    // RIGHT up
                     if (r_paddle_y_2 > 0)
                         r_paddle_y_2 <= r_paddle_y_2 - 1;
                 end
                 else if (w_Switch_4)
                 begin
+                    // RIGHT down
                     if (r_paddle_y_2 < (SCREEN_HEIGHT_ACTIVE - PADDLE_HEIGHT))
                         r_paddle_y_2 <= r_paddle_y_2 + 1;
                 end
@@ -295,6 +398,7 @@ module pong_top(
     wire output_active;
     wire output_active_paddle1;
     wire output_active_paddle2;
+    wire output_active_ball;
 
     Rectangle rectangle_paddle1(
         .i_left(0),
@@ -316,10 +420,20 @@ module pong_top(
         .o_is_xy_inside(output_active_paddle2)
     );
 
-    assign output_active = output_active_paddle1 | output_active_paddle2;
+    Rectangle rectangle_ball(
+        .i_left(r_ball_x),
+        .i_right(r_ball_x + BALL_WIDTH),
+        .i_top(r_ball_y),
+        .i_bottom(r_ball_y + BALL_HEIGHT),
+        .i_test_x(w_x),
+        .i_test_y(w_y),
+        .o_is_xy_inside(output_active_ball)
+    );
+
+    assign output_active = output_active_paddle1 | output_active_paddle2 | output_active_ball;
     
     assign w_red = output_active ? 3'b111 : 3'b000;
     assign w_green = output_active ? 3'b111 : 3'b000;
     assign w_blue = output_active ? 3'b111 : 3'b000;
-    
+
 endmodule
