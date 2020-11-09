@@ -88,9 +88,15 @@ The current test pattern selection is displayed on the 7 Segment display.
 Developed + Simulated on EDAPlayground:
 https://edaplayground.com/x/ahJE
 
+![VGA Output demo gif](./docs/vga-output.gif)
+
+[Video of VGA output test on Go Board](https://github.com/JimKnowler/nandland-verilog-exercises/raw/main/docs/vga-output.mov)
+
 ## 10. PONG!
 
-Simple implementation of the Pong game in verilog.
+![PONG on Go-Board](./docs/pong.png)
+
+Simple implementation of the game 'Pong' in verilog.
 
 Connect a VGA monitor to the VGA output to see the display.
 
@@ -102,4 +108,6 @@ The first player to 9 wins.
 
 Connect via UART terminal (see project 7) to restart game by pressing any key in the teraterm terminal.
 
-![PONG on Go-Board](./docs/pong.png)
+![PONG demo gif](./docs/pong.gif)
+
+[Video of PONG playing on Go Board](https://github.com/JimKnowler/nandland-verilog-exercises/raw/main/docs/pong.mov)
