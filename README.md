@@ -96,8 +96,10 @@ Connect a VGA monitor to the VGA output to see the display.
 
 Player one uses switches on the left to move their paddle up and down.  Player two uses switches on the right.
 
-Scores are displayed on the 7 segment display.
+Scores are displayed on the 7 segment displays on the board, and on screen.
 
 The first player to 9 wins.
 
-Connect via UART terminal (see project 7) to restart game with any key.
+Connect via UART terminal (see project 7) to restart game by pressing any key in the teraterm terminal.
+
+![PONG on Go-Board](./docs/pong.png)
