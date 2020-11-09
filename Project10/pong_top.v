@@ -54,10 +54,25 @@ module pong_top(
     localparam BALL_WIDTH = 20;
     localparam BALL_HEIGHT = 20;
 
+    localparam SCORE_WIN = 9;
+
     //////////////////////////////////////////////////////////////////
     // Reset
 
     wire w_reset;
+
+    //////////////////////////////////////////////////////////////////
+    // game active - set to true while the game is running
+
+    reg r_game_active;
+
+    //////////////////////////////////////////////////////////////////
+    // game over - set to true when a player has won
+
+    reg r_game_over;
+
+    reg r_game_over_flash = 0;
+    reg [23:0] r_game_over_flash_counter;
 
     //////////////////////////////////////////////////////////////////
     // Paddle positions + Scores for each player
@@ -131,13 +146,16 @@ module pong_top(
         .o_Segment_G(w_Segment1_G)
     );
 
-    assign o_Segment1_A = ~w_Segment1_A;
-    assign o_Segment1_B = ~w_Segment1_B;
-    assign o_Segment1_C = ~w_Segment1_C;
-    assign o_Segment1_D = ~w_Segment1_D;
-    assign o_Segment1_E = ~w_Segment1_E;
-    assign o_Segment1_F = ~w_Segment1_F;
-    assign o_Segment1_G = ~w_Segment1_G;
+    wire w_game_over_flash;
+    assign w_game_over_flash = r_game_over & r_game_over_flash;
+
+    assign o_Segment1_A = ~w_Segment1_A | w_game_over_flash;
+    assign o_Segment1_B = ~w_Segment1_B | w_game_over_flash;
+    assign o_Segment1_C = ~w_Segment1_C | w_game_over_flash;
+    assign o_Segment1_D = ~w_Segment1_D | w_game_over_flash;
+    assign o_Segment1_E = ~w_Segment1_E | w_game_over_flash;
+    assign o_Segment1_F = ~w_Segment1_F | w_game_over_flash;
+    assign o_Segment1_G = ~w_Segment1_G | w_game_over_flash;
 
     wire w_Segment2_A;
     wire w_Segment2_B;
@@ -159,13 +177,13 @@ module pong_top(
         .o_Segment_G(w_Segment2_G)
     );
 
-    assign o_Segment2_A = ~w_Segment2_A;
-    assign o_Segment2_B = ~w_Segment2_B;
-    assign o_Segment2_C = ~w_Segment2_C;
-    assign o_Segment2_D = ~w_Segment2_D;
-    assign o_Segment2_E = ~w_Segment2_E;
-    assign o_Segment2_F = ~w_Segment2_F;
-    assign o_Segment2_G = ~w_Segment2_G;
+    assign o_Segment2_A = ~w_Segment2_A | w_game_over_flash;
+    assign o_Segment2_B = ~w_Segment2_B | w_game_over_flash;
+    assign o_Segment2_C = ~w_Segment2_C | w_game_over_flash;
+    assign o_Segment2_D = ~w_Segment2_D | w_game_over_flash;
+    assign o_Segment2_E = ~w_Segment2_E | w_game_over_flash;
+    assign o_Segment2_F = ~w_Segment2_F | w_game_over_flash;
+    assign o_Segment2_G = ~w_Segment2_G | w_game_over_flash;
 
     //////////////////////////////////////////////////////////////////
     // UART for restarting game
@@ -277,6 +295,25 @@ module pong_top(
             // reset score
             r_score_1 <= 0;
             r_score_2 <= 0;
+
+            // start the game
+            r_game_active <= 1;
+            r_game_over <= 0;
+        end
+        else if (r_game_over) begin
+            r_game_over_flash_counter <= r_game_over_flash_counter + 1;
+
+            if (&r_game_over_flash_counter == 1) 
+            begin
+                r_game_over_flash <= ~r_game_over_flash;
+            end
+        end
+        else if ((r_score_1 == SCORE_WIN) || (r_score_2 == SCORE_WIN))
+        begin
+            // game over!
+            r_game_active <= 0;
+
+            r_game_over <= 1;
         end
         else
         begin
@@ -434,7 +471,7 @@ module pong_top(
         .o_is_xy_inside(output_active_ball)
     );
 
-    assign output_active = output_active_paddle1 | output_active_paddle2 | output_active_ball;
+    assign output_active = output_active_paddle1 | output_active_paddle2 | (r_game_active & output_active_ball);
     
     assign w_red = output_active ? 3'b111 : 3'b000;
     assign w_green = output_active ? 3'b111 : 3'b000;
