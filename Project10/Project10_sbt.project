@@ -4,7 +4,7 @@ Version=Lattice Semiconductor Corporation iCEcube - Release: 2017.08.27940 - Bui
 ProjectName=Project10
 Vendor=SiliconBlue
 Synthesis=synplify
-ProjectVFiles=Binary_To_7Segment.v=work,Debounce_Switch.v=work,VGASyncPorch.v=work,VGASyncPulseGenerator.v=work,pong_top.v=work,uart_recv.v=work,uart_send.v=work,rectangle.v=work
+ProjectVFiles=Binary_To_7Segment.v=work,Debounce_Switch.v=work,VGASyncPorch.v=work,VGASyncPulseGenerator.v=work,pong_top.v=work,uart_recv.v=work,uart_send.v=work,rectangle.v=work,sprite.v=work,score_sprite.v
 ProjectCFiles=../Go_Board_Clock_Constraint.sdc
 CurImplementation=Project10_Implmnt
 Implementations=Project10_Implmnt

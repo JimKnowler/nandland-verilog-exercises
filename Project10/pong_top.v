@@ -471,7 +471,29 @@ module pong_top(
         .o_is_xy_inside(output_active_ball)
     );
 
-    assign output_active = output_active_paddle1 | output_active_paddle2 | (r_game_active & output_active_ball);
+
+    wire w_output_active_sprite_1;
+    wire w_output_active_sprite_2;
+    
+    ScoreSprite score_sprite_1(
+        .i_score( r_score_1 ),
+        .i_pos_x( (SCREEN_WIDTH_ACTIVE / 2) - (4*8) ),
+        .i_pos_y( 20 ),
+        .i_test_x( w_x ),
+        .i_test_y( w_y ),
+        .o_test_result( w_output_active_sprite_1 )
+    );
+        
+    ScoreSprite score_sprite_2(
+        .i_score( r_score_2 ),
+        .i_pos_x( SCREEN_WIDTH_ACTIVE / 2 ),
+        .i_pos_y( 20 ),
+        .i_test_x( w_x ),
+        .i_test_y( w_y ),
+        .o_test_result( w_output_active_sprite_2 )
+    );
+
+    assign output_active = output_active_paddle1 | output_active_paddle2 | (r_game_active & output_active_ball) | w_output_active_sprite_1 | w_output_active_sprite_2;
     
     assign w_red = output_active ? 3'b111 : 3'b000;
     assign w_green = output_active ? 3'b111 : 3'b000;
