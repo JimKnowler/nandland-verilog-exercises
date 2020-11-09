@@ -273,6 +273,10 @@ module pong_top(
             // reset ball position to center of the screen
             r_ball_x <= (SCREEN_WIDTH_ACTIVE - BALL_WIDTH) / 2;
             r_ball_y <= (SCREEN_HEIGHT_ACTIVE - BALL_HEIGHT) / 2;
+
+            // reset score
+            r_score_1 <= 0;
+            r_score_2 <= 0;
         end
         else
         begin
@@ -299,7 +303,7 @@ module pong_top(
                         r_ball_x <= SCREEN_WIDTH_ACTIVE / 2;
                         r_ball_y <= SCREEN_HEIGHT_ACTIVE / 2;
                     end
-                    else if ((r_ball_x >= (SCREEN_WIDTH_ACTIVE - BALL_WIDTH)) && (r_ball_y > r_paddle_y_2) && ((r_ball_y - r_paddle_y_2) < PADDLE_HEIGHT))
+                    else if ((r_ball_x >= (SCREEN_WIDTH_ACTIVE - BALL_WIDTH)) && ((r_ball_y + BALL_HEIGHT) > r_paddle_y_2) && (((r_ball_y + BALL_HEIGHT) - r_paddle_y_2) < (PADDLE_HEIGHT + BALL_HEIGHT)))
                     begin
                         // hit paddle 2, switch direction
                         r_ball_x <= r_ball_x - 1;
@@ -323,7 +327,7 @@ module pong_top(
                         r_ball_x <= SCREEN_WIDTH_ACTIVE / 2;
                         r_ball_y <= SCREEN_HEIGHT_ACTIVE / 2;
                     end
-                    else if ((r_ball_x <= BALL_WIDTH) && (r_ball_y > r_paddle_y_1) && ((r_ball_y - r_paddle_y_1) < PADDLE_HEIGHT))
+                    else if ((r_ball_x <= BALL_WIDTH) && ((r_ball_y + BALL_HEIGHT) > r_paddle_y_1) && (((r_ball_y + BALL_HEIGHT) - r_paddle_y_1) < (PADDLE_HEIGHT + BALL_HEIGHT)))
                     begin
                         // hit paddle 1, switch direction
                         r_ball_x <= r_ball_x + 1;
